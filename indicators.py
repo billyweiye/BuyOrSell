@@ -18,10 +18,11 @@ def calculate_trend_indicators(data):
     data['50_MA_slope']=data['ma50'].rolling(window=10).apply(lambda x: (x[-1]-x[0])/10,raw=True) 
     data['200_MA_slope']=data['ma200'].rolling(window=10).apply(lambda x: (x[-1]-x[0])/10,raw=True) 
     # 均线斜率信号
-    data['ma_slope_signal'] = np.where(
-        (data['50_MA_slope'] > 0) & (data['200_MA_slope'] > 0) & (data['close'] > data['ma200']), 1,
-        (data['50_MA_slope'] < 0) & (data['200_MA_slope'] < 0) & (data['close'] < data['ma200']), -1,0
-    )
+    conditions = [(data['50_MA_slope'] > 0) & (data['200_MA_slope'] > 0) & (data['close'] > data['ma200']),
+                 (data['50_MA_slope'] < 0) & (data['200_MA_slope'] < 0) & (data['close'] < data['ma200'])]
+    choices = [1, -1]
+    data['ma_slope_signal'] = np.select(conditions, choices, default=0) # 均线斜率信号 上升为1，下降为-1    
+    
     # DIF与DEA的交叉  1.计算12日和26日的EMA  2.DIF=12日EMA-26日EMA  3.计算DIF的9日EMA, 即DEA  4.DIF与DEA的交叉
     data['ema_dif'] = EMA(data['close'],12) - EMA(data['close'],26)
     data['ema_dea'] = EMA(data['ema_dif'],9)
