@@ -17,7 +17,7 @@ def analyze_trend(data):
                  (data['trend_signal'] < -len(trend_signals)*0.8),
                  (data['trend_signal'] < -len(trend_signals)*0.6)]
     choices = ['strong_buy','buy','strong_sell','sell']
-    data['trend_signal_strong'] = np.select(conditions, choices, default='hold')
+    data['buy_or_sell'] = np.select(conditions, choices, default='hold')
 
     return data
 
