@@ -4,39 +4,57 @@ from indicators import calculate_trend_indicators
 from trend_analysis import analyze_trend
 from visualization import plot_trend_analysis
 
-st.title("🎈 Buy Or Sell")
+# 引入 Tailwind CSS
+st.markdown(
+    """
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    """,
+    unsafe_allow_html=True
+)
+
+# 创建一个标题
+st.markdown('<h1 class="text-4xl font-bold text-center mt-4">🎈 Buy Or Sell</h1>', unsafe_allow_html=True)
+
 
 # add an button for users to select the stock they want to test
 stock_selections={
-    '台积电':'TSM'
+    '台积电':'TSM',
+    '安集科技':'688019.ss'
 }
 
 #股票查询部分
-with st.container():
+with st.container(height=100):
+   # row1=st.columns(1)
     select_col, query_button_col = st.columns([3, 1])  # 创建两列，第一列宽度是第二列的三倍
 
     with select_col:
-        selected_stock = st.selectbox('请选择一个股票:', stock_selections.keys())
+        selected_stock = st.selectbox(label='stock_selector', placeholder ='请选择',options= stock_selections.keys(),label_visibility='collapsed')
     with query_button_col:
-        query_button=st.button('查询')
-
-if query_button:
+        query_button=st.button('查询',use_container_width=True,type='primary')
 
 
-    selected_stock_code=stock_selections.get(selected_stock)
-
-    stock_data=fetch_stock_data(selected_stock_code,'2y','1d')
-
-
-    stock_analysis= (
-        stock_data
-        .pipe(calculate_trend_indicators)
-        .pipe(analyze_trend)
-        .reset_index()
-        .rename(columns={"Date":'date'})
-        )
+with st.container():
+    if query_button:
 
 
-    fig=plot_trend_analysis(stock_analysis)
+        selected_stock_code=stock_selections.get(selected_stock)
 
-    st.pyplot(fig)
+        stock_data=fetch_stock_data(selected_stock_code,'2y','1d')
+
+
+        stock_analysis= (
+            stock_data
+            .pipe(calculate_trend_indicators)
+            .pipe(analyze_trend)
+            .reset_index()
+            .rename(columns={"Date":'date'})
+            )
+        
+        current_recommendation=stock_analysis['buy_or_sell'].iloc[-1:].values[0]
+
+
+        fig=plot_trend_analysis(stock_analysis)
+
+        st.pyplot(fig)
+
+        st.write(current_recommendation)
