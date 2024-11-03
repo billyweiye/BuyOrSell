@@ -4,13 +4,7 @@ from indicators import calculate_trend_indicators
 from trend_analysis import analyze_trend
 from visualization import plot_trend_analysis
 
-# 引入 Tailwind CSS
-st.markdown(
-    """
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    """,
-    unsafe_allow_html=True
-)
+
 
 # 创建一个标题
 st.markdown('<h1 class="text-4xl font-bold text-center mt-4">🎈 Buy Or Sell</h1>', unsafe_allow_html=True)
@@ -31,6 +25,8 @@ with st.container(height=100):
         selected_stock = st.selectbox(label='stock_selector', placeholder ='请选择',options= stock_selections.keys(),label_visibility='collapsed')
     with query_button_col:
         query_button=st.button('查询',use_container_width=True,type='primary')
+
+st.divider()  # 👈 Draws a horizontal rule
 
 
 with st.container():
@@ -56,5 +52,7 @@ with st.container():
         fig=plot_trend_analysis(stock_analysis)
 
         st.pyplot(fig)
+
+        st.divider()  # 👈 Draws a horizontal rule
 
         st.write(current_recommendation)
