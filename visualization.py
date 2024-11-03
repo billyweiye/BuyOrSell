@@ -5,8 +5,9 @@ import seaborn as sns
 def plot_trend_analysis(data):
     # set up the figure
     fig, ax = plt.subplots(1) 
-    fig.set_figheight(15)
-    fig.set_figwidth(45)
+    fig.set_figheight(30)
+    fig.set_figwidth(60)
+    fig.set_dpi(600)
 
     # plot the price first
     sns.lineplot(x='date', y='close', data=data, ax=ax) 
