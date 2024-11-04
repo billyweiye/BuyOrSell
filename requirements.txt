@@ -71,7 +71,7 @@ smmap==5.0.1
 soupsieve==2.6
 stack-data==0.6.3
 streamlit==1.39.0
-ta-lib-bin
+ta-lib-bin @ file://./ta_lib_bin-0.4.26-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
 tenacity==9.0.0
 toml==0.10.2
 tornado==6.4.1
