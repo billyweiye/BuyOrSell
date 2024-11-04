@@ -18,7 +18,7 @@ with open("us_stock_meta.json",'r') as f:
     stock_meta=json.load(f)
 stock_selections={}
 for stock in stock_meta:
-    stock_selections[stock_meta.get("name")]=stock_selections[stock_meta.get("ticker")]
+    stock_selections[stock.get("name")]=stock_selections[stock.get("ticker")]
 # stock_selections={
 #     '台积电':'TSM',
 #     '安集科技':'688019.ss'
