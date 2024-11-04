@@ -12,13 +12,39 @@ import json
 # 创建一个标题
 st.markdown('<h1 class="text-4xl font-bold text-center mt-4">🎈 Buy Or Sell</h1>', unsafe_allow_html=True)
 
+#设置状态
 
-# add an button for users to select the stock they want to test
+#可选市场状态
+available_markets=['us_market','china_market','hk_market']
+for market in available_markets:
+    if market not in st.session_state:
+        st.session_state[market]=False
+
+def stock_selection_state(market):
+    for m in available_markets:
+        if m==market:
+            st.session_state[m]=True
+        else:
+            st.session_state[m]=False
+
+
+with st.container():
+    us,cn,hk,_,_,_,_,_=st.columns([1,1.5,1,2,2,1,1,1])
+    with us:
+        st.button('US',on_click=stock_selection_state,args=('us_market',))
+    with cn:
+        st.button('CHINA',on_click=stock_selection_state,args=('china_market',))
+    with hk:
+        st.button('HK',on_click=stock_selection_state,args=('hk_market',))
+
 with open("us_stock_meta.json",'r') as f:
     stock_meta=json.load(f)
+# add an button for users to select the stock they want to test
 stock_selections={}
-for stock in stock_meta:
-    stock_selections[stock.get("name")]=stock.get("ticker")
+if st.session_state['us_market']:
+    stock_selections={}
+    for stock in stock_meta:
+        stock_selections[stock.get("name")]=stock.get("ticker")
 # stock_selections={
 #     '台积电':'TSM',
 #     '安集科技':'688019.ss'
@@ -63,4 +89,4 @@ with st.container():
 
         st.divider()  # 👈 Draws a horizontal rule
 
-        st.write(current_recommendation)
+        st.write(current_recommendation.upper())
