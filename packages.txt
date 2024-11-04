@@ -1,1 +1,2 @@
-ta-lib
+build-essential
+wget
