@@ -16,8 +16,9 @@ st.markdown('<h1 class="text-4xl font-bold text-center mt-4">🎈 Buy Or Sell</h
 # add an button for users to select the stock they want to test
 with open("us_stock_meta.json",'r') as f:
     stock_meta=json.load(f)
-
-stock_selections=[x.get("ticker") for x in stock_meta]
+stock_selections={}
+for stock in stock_meta:
+    stock_selections[stock_meta.get("name")]=stock_selections[stock_meta.get("ticker")]
 # stock_selections={
 #     '台积电':'TSM',
 #     '安集科技':'688019.ss'
