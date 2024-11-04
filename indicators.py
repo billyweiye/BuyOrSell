@@ -9,17 +9,17 @@ def calculate_trend_indicators(data):
     return: pd.DataFrame, 包含趋势指标
     signal: int, 1表示金叉，0表示死叉 
     '''
-    data['ma200'] = MA(data['close'],timeperiod=200)
-    data['ma50'] = MA(data['close'],timeperiod=50)
+    data['ma100'] = MA(data['close'],timeperiod=100)
+    data['ma20'] = MA(data['close'],timeperiod=20)
     # 均线黄金交叉
-    data['ma200_ma50_diff'] = data['ma200'] - data['ma50']
-    data['ma200_ma50_signal'] = data['ma200_ma50_diff'].apply(lambda x: -1 if x > 0 else 1) # 均线黄金交叉信号 50日均线上穿200日均线为1，金叉，50日均线下穿200日均线为-1，死叉
+    data['ma100_ma20_diff'] = data['ma100'] - data['ma20']
+    data['ma100_ma20_signal'] = data['ma100_ma20_diff'].apply(lambda x: -1 if x > 0 else 1) # 均线黄金交叉信号 50日均线上穿200日均线为1，金叉，50日均线下穿200日均线为-1，死叉
     # 计算均线的斜率 
-    data['50_MA_slope']=data['ma50'].rolling(window=10).apply(lambda x: (x[-1]-x[0])/10,raw=True) 
-    data['200_MA_slope']=data['ma200'].rolling(window=10).apply(lambda x: (x[-1]-x[0])/10,raw=True) 
+    data['20_MA_slope']=data['ma20'].rolling(window=10).apply(lambda x: (x[-1]-x[0])/10,raw=True) 
+    data['100_MA_slope']=data['ma100'].rolling(window=10).apply(lambda x: (x[-1]-x[0])/10,raw=True) 
     # 均线斜率信号
-    conditions = [(data['50_MA_slope'] > 0) & (data['200_MA_slope'] > 0) & (data['close'] > data['ma200']),
-                 (data['50_MA_slope'] < 0) & (data['200_MA_slope'] < 0) & (data['close'] < data['ma200'])]
+    conditions = [(data['20_MA_slope'] > 0) & (data['100_MA_slope'] > 0) & (data['close'] > data['ma100']),
+                 (data['20_MA_slope'] < 0) & (data['100_MA_slope'] < 0) & (data['close'] < data['ma100'])]
     choices = [1, -1]
     data['ma_slope_signal'] = np.select(conditions, choices, default=0) # 均线斜率信号 上升为1，下降为-1    
     
