@@ -302,7 +302,7 @@ def STOCH(high, low, close, fastk_period=5, slowk_period=3, slowk_matype=0, slow
   随机指标,俗称KD Stochastic
   这个指数的值在0-100之间，通常认为超过80为超买，低于20为超卖
   '''
-  slowk, slowd = abstract.STOCH(high, low, close, fastk_period, slowk_period, slowk_matype=0, slowd_period=3, slowd_matype=0)
+  slowk, slowd = abstract.STOCH(high, low, close, fastk_period, slowk_period, slowk_matype, slowd_period, slowd_matype)
   if type=='slowk':
     return slowk
   elif type=='slowd':
@@ -352,7 +352,7 @@ def WILLR (high, low, close, timeperiod=14):
   '''
   return abstract.WILLR(high, low, close, timeperiod)
 
-def BIAS(close,timeperiod=6):
+def BIAS(close,timeperiod=12):
   return (close - close.rolling(timeperiod, min_periods=timeperiod).mean())/ close.rolling(timeperiod, min_periods=timeperiod).mean()*100
 
 def RANK(close,timeperiod=250):
@@ -362,6 +362,14 @@ def RANK(close,timeperiod=250):
     return rank
   else:
     return [np.nan]*len(close)
+  
+
+def PSY(close, period=12):
+    # 计算上涨天数
+    up_days = (close.diff() > 0).rolling(window=period).sum()
+    # 计算PSY值
+    psy = (up_days / period) * 100
+    return psy
 
 # Volume Indicators 通常用于衡量交易量
 def AD(high, low, close, volume):
