@@ -13,7 +13,7 @@ def plot_trend_analysis(data):
     sns.lineplot(x='date', y='close', data=data, ax=ax,color='#0D0D0D') 
 
     # plot the buy_or_sell spot
-    custom_palette = {'buy': '#A5014D', 'strong_buy': '#710022','sell':'#848E2F','strong_sell':'#324103','hold':'blue'}
+    custom_palette = {'buy': '#E07B71', 'strong_buy': '#E02000','sell':'#01F52E','strong_sell':'#EBD801','hold':'blue'}
 
     sns.scatterplot(x='date',y='close',hue='buy_or_sell',data=data,palette=custom_palette,ax=ax)
 
