@@ -4,7 +4,7 @@ from indicators import calculate_trend_indicators
 from trend_analysis import analyze_trend
 from visualization import plot_trend_analysis
 import json 
-from ticker_options import us_stocks,china_stocks
+from ticker_options import us_stocks,china_stocks,hk_stocks
 
 
 
@@ -46,6 +46,9 @@ if st.session_state['us_market']:
 
 if st.session_state['china_market']:
     stock_selections=china_stocks()
+
+if st.session_state['hk_market']:
+    stock_selections=hk_stocks()
 
 # stock_selections={
 #     '台积电':'TSM',
