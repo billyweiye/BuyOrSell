@@ -93,7 +93,7 @@ with st.container():
             current_recommendation=stock_analysis['buy_or_sell'].iloc[-1:].values[0]
 
 
-            fig=plot_trend_analysis(stock_analysis)
+            fig=plot_trend_analysis(stock_analysis)   
 
             st.pyplot(fig)
 
