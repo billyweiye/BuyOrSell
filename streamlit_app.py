@@ -4,6 +4,7 @@ from indicators import calculate_trend_indicators
 from trend_analysis import analyze_trend
 from visualization import plot_trend_analysis
 import json 
+from ticker_options import us_stocks,china_stocks
 
 
 
@@ -37,14 +38,15 @@ with st.container():
     with hk:
         st.button('HK',on_click=stock_selection_state,args=('hk_market',))
 
-with open("us_stock_meta.json",'r') as f:
-    stock_meta=json.load(f)
-# add an button for users to select the stock they want to test
 stock_selections={}
+
+
 if st.session_state['us_market']:
-    stock_selections={}
-    for stock in stock_meta:
-        stock_selections[stock.get("name")]=stock.get("ticker")
+    stock_selections=us_stocks()
+
+if st.session_state['china_market']:
+    stock_selections=china_stocks()
+
 # stock_selections={
 #     '台积电':'TSM',
 #     '安集科技':'688019.ss'
