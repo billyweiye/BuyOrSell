@@ -23,3 +23,15 @@ def china_stocks():
         stock_selections[stock.get("name")]=stock.get("ticker")
     
     return stock_selections
+
+
+# HK
+def hk_stocks():
+    stock_selections={}
+    df=pd.read_csv("stock_hk.csv") 
+    df.dropna(subset='ticker',inplace=True)
+    stock_meta=df.to_dict('records')
+    for stock in stock_meta:
+        stock_selections[stock.get("name")]=stock.get("ticker")
+    
+    return stock_selections
