@@ -71,24 +71,29 @@ with st.container():
 
         selected_stock_code=stock_selections.get(selected_stock)
 
-        stock_data=fetch_stock_data(selected_stock_code,'2y','1d')
+        try:
+            stock_data=fetch_stock_data(selected_stock_code,'5y','1d')
+        except Exception as e:
+            st.popover("Something Went Wrong!!")
+
+        if stock_data.empty:
+            st.popover("This Stock Is Not Available!")
+        else:
+            stock_analysis= (
+                stock_data
+                .pipe(calculate_trend_indicators)
+                .pipe(analyze_trend)
+                .reset_index()
+                .rename(columns={"Date":'date'})
+                )
+            
+            current_recommendation=stock_analysis['buy_or_sell'].iloc[-1:].values[0]
 
 
-        stock_analysis= (
-            stock_data
-            .pipe(calculate_trend_indicators)
-            .pipe(analyze_trend)
-            .reset_index()
-            .rename(columns={"Date":'date'})
-            )
-        
-        current_recommendation=stock_analysis['buy_or_sell'].iloc[-1:].values[0]
+            fig=plot_trend_analysis(stock_analysis)
 
+            st.pyplot(fig)
 
-        fig=plot_trend_analysis(stock_analysis)
+            st.divider()  # 👈 Draws a horizontal rule
 
-        st.pyplot(fig)
-
-        st.divider()  # 👈 Draws a horizontal rule
-
-        st.write(current_recommendation.upper())
+            st.write(current_recommendation.upper())
