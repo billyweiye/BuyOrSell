@@ -100,3 +100,18 @@ with st.container():
             st.divider()  # 👈 Draws a horizontal rule
 
             st.write(current_recommendation.upper())
+
+st.divider() 
+
+with st.container():
+    st.markdown(
+        '''
+#### Disclaimer
+
+The content and analysis provided on this website are for informational purposes only and do not constitute investment advice. Any trading decisions made based on the content of this website are solely at the user's discretion and risk.
+
+#### 免责声明
+
+本网站提供的所有内容和分析结果仅供参考，不构成任何投资建议。任何用户基于本网站内容所进行的股票买卖操作纯属个人决策，风险自负。
+'''
+    )
