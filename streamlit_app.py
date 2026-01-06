@@ -73,13 +73,14 @@ with st.container():
 
 
         selected_stock_code=stock_selections.get(selected_stock)
+        stock_data = None
 
         try:
             stock_data=fetch_stock_data(selected_stock_code,'5y','1d')
         except Exception as e:
             st.popover("Something Went Wrong!!")
 
-        if stock_data.empty:
+        if stock_data is None or stock_data.empty:
             st.popover("This Stock Is Not Available!")
         else:
             stock_analysis= (

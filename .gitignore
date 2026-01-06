@@ -168,3 +168,6 @@ invest/
 .devcontainer/
 
 *.ipynb 
+
+error/
+.trae/
