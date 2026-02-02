@@ -4,7 +4,7 @@ from indicators import calculate_trend_indicators
 from trend_analysis import analyze_trend
 from visualization import plot_trend_analysis
 import json 
-from ticker_options import us_stocks,china_stocks,hk_stocks
+from ticker_options import us_stocks,china_stocks,hk_stocks,us_etfs
 
 
 
@@ -16,7 +16,7 @@ st.markdown('<h1 class="text-4xl font-bold text-center mt-4">🎈 Buy Or Sell</h
 #设置状态
 
 #可选市场状态
-available_markets=['us_market','china_market','hk_market']
+available_markets=['us_market','china_market','hk_market','us_etf_market']
 for market in available_markets:
     if market not in st.session_state:
         st.session_state[market]=False
@@ -30,13 +30,15 @@ def stock_selection_state(market):
 
 
 with st.container():
-    us,cn,hk,_,_,_,_,_=st.columns([1,1.5,1,2,2,1,1,1])
+    us,cn,hk,us_etf,_,_,_,_=st.columns([1,1.5,1,1.5,1.5,1,1,1])
     with us:
         st.button('US',on_click=stock_selection_state,args=('us_market',))
     with cn:
         st.button('CHINA',on_click=stock_selection_state,args=('china_market',))
     with hk:
         st.button('HK',on_click=stock_selection_state,args=('hk_market',))
+    with us_etf:
+        st.button('US ETF',on_click=stock_selection_state,args=('us_etf_market',))
 
 stock_selections={}
 
@@ -49,6 +51,9 @@ if st.session_state['china_market']:
 
 if st.session_state['hk_market']:
     stock_selections=hk_stocks()
+
+if st.session_state['us_etf_market']:
+    stock_selections=us_etfs()
 
 # stock_selections={
 #     '台积电':'TSM',
